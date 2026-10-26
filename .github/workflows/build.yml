@@ -6,6 +6,7 @@ on:
     branches:
       - master
       - ci
+      - gpu-next
       - 'release/**'
     tags:
       - 'v0.*'
