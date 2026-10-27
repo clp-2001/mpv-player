@@ -158,6 +158,17 @@ jobs:
         run: |
           ./ci/build-mingw64-full.sh
 
+      - name: Collect unstripped libmpv
+        run: |
+          mkdir -p unstripped
+          find build -name 'libmpv-2.dll' -exec cp {} unstripped/ ;
+          find build -name '*.map' -exec cp {} unstripped/ ; || true
+      - uses: actions/upload-artifact@v7
+        if: ${{ matrix.target == 'win64' }}
+        with:
+          name: libmpv-unstripped-${{ matrix.target }}-${{ matrix.variant }}
+          path: unstripped/*
+
       - name: Print meson log
         if: ${{ failure() && steps.build.outcome == 'failure' }}
         run: |
